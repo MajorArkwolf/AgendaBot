@@ -22,7 +22,7 @@ async def HelpMenu(message, permission):
     var += "Priorty sets how it will be displayed on the agenda.\n"
     var += "Priorty = 1: urgent and is placed at the top of the agenda.\n"
     var += "Priorty = 0: Set to this by default, means its placed into the middle of agenda in order of submission.\n"
-    var += "Priorty = 1: places the item at the bottom of the agenda for when something needs to be bought up that is important to close on.\n"
+    var += "Priorty = -1: places the item at the bottom of the agenda for when something needs to be bought up that is important to close on.\n"
     messageUser.add_field(name="!!setlevel [index] [priority]", value=var, inline=False)
 
     var = "Will post what is currently on the active agenda ordered in such a way that will be displayed once printed into a document.\n"
