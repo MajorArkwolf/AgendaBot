@@ -47,7 +47,7 @@ async def on_message(message):
         await command.MessageCleanup(message)
         return
 
-    if message.content.startswith(prefix + "unregister"):
+    if message.content == (prefix + "unregister"):
         await command.UserRemove(message)
         await command.MessageCleanup(message)
         return
@@ -69,7 +69,7 @@ async def on_message(message):
             await command.AddToAgend(message)
             return
 
-    if message.content.startswith(prefix + "end"):
+    if message.content == (prefix + "end"):
         if command.VerifyRole(message.author.id, message.guild.id, 1):
             if command.FileCheck(message):
                 compilejson.StartBuild(message.guild.id)
@@ -78,11 +78,11 @@ async def on_message(message):
                 await message.channel.send("No agenda active.")
         return
 
-    if message.content.startswith(prefix + "getagenda"):
+    if message.content == (prefix + "getagenda"):
         await command.PostAgendaTXT(message)
         return
 
-    if message.content.startswith(prefix + "forceend"):
+    if message.content == (prefix + "forceend"):
         if command.VerifyRole(message.author.id, message.guild.id, 1):
             await compilejson.MoveJSON(message.guild.id)
         else:
@@ -101,12 +101,10 @@ async def on_message(message):
         if command.VerifyRole(message.author.id, message.guild.id, 0):
             await command.AddAdmin(message)
             return
-# FINISH ME
-# FINISH ME
-# FINISH ME
+
     if message.content.startswith(prefix + "setchannel"):
         if command.VerifyRole(message.author.id, message.guild.id, 0):
-            print("coming soon")
+            command.SetChannel(message)
             return
 
     if message.content.startswith(prefix + "setprefix"):
@@ -119,7 +117,7 @@ async def on_message(message):
             await command.SetPrefix(message)
             return
 
-    if message.content.startswith(prefix + "viewadmins"):
+    if message.content == (prefix + "viewadmins"):
         if command.VerifyRole(message.author.id, message.guild.id, 0):
             await command.ViewAdmins(message)
         return
@@ -132,16 +130,16 @@ async def on_message(message):
         await command.SetLevel(message)
         return
 
-    if message.content.startswith(prefix + "view"):
+    if message.content == (prefix + "view"):
         if message.channel.name == defaultRoom:
             await command.ViewAgenda(message)
         return
 
-    if message.content.startswith(prefix + "clearserver"):
+    if message.content == (prefix + "clearserver"):
         if command.VerifyRole(message.author.id, message.guild.id, 0):
             database.ClearServer(message.guildid, message.guild.owner_id)
 
-    if message.content.startswith(prefix + "help"):
+    if message.content == (prefix + "help"):
         var = 0
         if command.VerifyRole(message.author.id, message.guild.id, 1):
             var = 1
@@ -156,8 +154,7 @@ async def on_message(message):
 async def on_guild_join(var):
     id_exists = database.GetServer(var.id)
     if id_exists is False:
-        database.SetServer(var.id, "agenda", "!!",
-            var.owner_id)
+        database.SetServer(var.id, "agenda", "!!", var.owner_id)
 
 
 @client.event

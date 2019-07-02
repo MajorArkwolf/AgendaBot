@@ -350,6 +350,16 @@ async def SetLevel(message):
             await message.channel.send("Invalid item")
 
 
+async def SetChannel(message):
+    temp = message.content
+    temp = temp.split(" ")[-1]
+
+    if "setchannel" in temp:
+        await message.channel.send("Invalid message format.")
+    else:
+        database.SetDefaultChannel(temp, message.guild.id)
+        await message.channel.send("New channel set to {}.".format(temp))
+
 def VerifyRole(id, guildid, level):
     # level 0 = owner and president only
     # level 1 = all admins
