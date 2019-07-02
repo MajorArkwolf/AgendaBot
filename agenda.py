@@ -49,7 +49,7 @@ async def on_message(message):
         if command.VerifyRole(message.author.id, message.guild.id, 0):
             database.ClearServer(message.guildid, message.guild.owner_id)
 
-    # Any command below this line must happen in the default channel, otherwise the bot will notify them
+    # Any command below this line must happen in the default channel, otherwise the bot will notify them.
     if message.content.startswith(prefix):
         if type(message.channel) is not discord.channel.DMChannel:
             if message.channel.name != defaultRoom:

@@ -71,7 +71,7 @@ async def CreateAgenda(message):
         if datechecker.day_check(int(month), int(day)) and datechecker.month_check(int(month)) and datechecker.year_check(year):
             if datechecker.valid_date(int(day), int(month), int(year)):
                 date = {}
-                data = {'day': day, 'month': month, 'year': year, 'items':[]}
+                data = {'day': day, 'month': month, 'year': year, 'items': []}
                 with open(filepath, 'w') as outfile:
                     json.dump(data, outfile)
                 await message.channel.send("Agenda Created for {}/{}/{}.".format(day, month, year))
@@ -114,7 +114,7 @@ async def AddToAgend(message):
     try:
         memo = message.content.split(" ", 1)[1]
     except:
-        await message.author.send("Invalid format to send message.")
+        await message.channel.send("Invalid format to send message.")
         return
     try:
         user = FindUser(message.author.id)
@@ -133,7 +133,7 @@ async def AddToAgend(message):
 
 async def ViewAgenda(message):
     if FileCheck(message) is False:
-        await message.author.send("No Active Agenda. You may need to create one.")
+        await message.channel.send("No Active Agenda. You may need to create one.")
         return
 
     filepath = "./data/{}.json".format(message.guild.id)
@@ -145,28 +145,34 @@ async def ViewAgenda(message):
 
     counter = 0
     runningstring = ""
+    index = 0
     for m in data['items']:
+        index = index + 1
         if m['urgent'] == 1:
             counter = counter + 1
-            runningstring += "{username}: {content}.\n".format(content=m['content'], username=m['username'])
+            runningstring += "[{indexV}] {username}: {content}.\n".format(indexV=index, content=m['content'], username=m['username'])
     if counter > 0:
         embed.add_field(name="URGENT", value=runningstring, inline=False)
 
     counter = 0
+    index = 0
     runningstring = ""
     for m in data['items']:
+        index = index + 1
         if m['urgent'] == 0:
             counter = counter + 1
-            runningstring += "{username}: {content}.\n".format(content=m['content'], username=m['username'])
+            runningstring += "[{indexV}] {username}: {content}.\n".format(indexV=index, content=m['content'], username=m['username'])
     if counter > 0:
         embed.add_field(name="Regular Items", value=runningstring, inline=False)
 
     counter = 0
+    index = 0
     runningstring = ""
     for m in data['items']:
+        index = index + 1
         if m['urgent'] == -1:
             counter = counter + 1
-            runningstring += "{username}: {content}.\n".format(content=m['content'], username=m['username'])
+            runningstring += "[{indexV}] {username}: {content}.\n".format(indexV=index, content=m['content'], username=m['username'])
     if counter > 0:
         embed.add_field(name="Final Items", value=runningstring, inline=False)
     await message.channel.send(embed=embed)
