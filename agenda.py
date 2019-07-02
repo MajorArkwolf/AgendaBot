@@ -30,6 +30,26 @@ async def on_message(message):
                 database.SetServer(message.guild.id, "agenda", "!!",
                     message.guild.owner_id)
 
+    if message.content.startswith(prefix + "setchannel"):
+        if command.VerifyRole(message.author.id, message.guild.id, 0):
+            command.SetChannel(message)
+            return
+
+    if message.content.startswith(prefix + "setprefix"):
+        if command.VerifyRole(message.author.id, message.guild.id, 0):
+            await command.SetPrefix(message)
+            return
+
+    if message.content.startswith("!!setprefix"):
+        if command.VerifyRole(message.author.id, message.guild.id, 0):
+            await command.SetPrefix(message)
+            return
+
+    if message.content == (prefix + "clearserver"):
+        if command.VerifyRole(message.author.id, message.guild.id, 0):
+            database.ClearServer(message.guildid, message.guild.owner_id)
+
+    # Any command below this line must happen in the default channel, otherwise the bot will notify them
     if message.content.startswith(prefix):
         if type(message.channel) is not discord.channel.DMChannel:
             if message.channel.name != defaultRoom:
@@ -102,21 +122,6 @@ async def on_message(message):
             await command.AddAdmin(message)
             return
 
-    if message.content.startswith(prefix + "setchannel"):
-        if command.VerifyRole(message.author.id, message.guild.id, 0):
-            command.SetChannel(message)
-            return
-
-    if message.content.startswith(prefix + "setprefix"):
-        if command.VerifyRole(message.author.id, message.guild.id, 0):
-            await command.SetPrefix(message)
-            return
-
-    if message.content.startswith("!!setprefix"):
-        if command.VerifyRole(message.author.id, message.guild.id, 0):
-            await command.SetPrefix(message)
-            return
-
     if message.content == (prefix + "viewadmins"):
         if command.VerifyRole(message.author.id, message.guild.id, 0):
             await command.ViewAdmins(message)
@@ -134,10 +139,6 @@ async def on_message(message):
         if message.channel.name == defaultRoom:
             await command.ViewAgenda(message)
         return
-
-    if message.content == (prefix + "clearserver"):
-        if command.VerifyRole(message.author.id, message.guild.id, 0):
-            database.ClearServer(message.guildid, message.guild.owner_id)
 
     if message.content == (prefix + "help"):
         var = 0
