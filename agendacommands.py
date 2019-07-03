@@ -3,6 +3,9 @@ import os
 import datechecker
 import json
 import database
+import datetime
+import compilejson
+
 
 client = discord.Client()
 
@@ -105,6 +108,27 @@ async def ModifyDate(message):
     else:
         await CreateAgenda(message)
         await message.channel.send("No Agenda found, new agenda created.")
+
+
+async def AutoEnd(file, client):
+    filepath = "./data/{}".format(file)
+    exists = os.path.isfile(filepath)
+    if exists is True:
+        today = datetime.date.today()
+        with open(filepath, "r+") as jsonFile:
+            data = json.load(jsonFile)
+        if int(data['year']) == today.year:
+            if int(data['month']) == today.month:
+                if int(data['day']) == today.day:
+                    id = file.split(".")[0]
+                    serverinfo = database.GetServer(id)
+                    # Build JSON File
+                    compilejson.StartBuild(serverinfo[0])
+                    # Prep message unique for server
+                    guild = client.get_guild(int(serverinfo[0]))
+                    channel = discord.utils.get(guild.text_channels, name=serverinfo[1])
+                    filepath = "./data/{}.txt".format(id)
+                    await channel.send(content="Auto: Agenda Locked.\nCurrent formatted Agenda", file=discord.File(filepath))
 
 
 async def AddToAgend(message):
@@ -365,6 +389,7 @@ async def SetChannel(message):
     else:
         database.SetDefaultChannel(temp, message.guild.id)
         await message.channel.send("New channel set to {}.".format(temp))
+
 
 def VerifyRole(id, guildid, level):
     # level 0 = owner and president only
