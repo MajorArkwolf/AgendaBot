@@ -7,14 +7,16 @@ def BuildFile(guildid):
     with open(filepath, "r+") as jsonFile:
         data = json.load(jsonFile)
 
-    datastring = "Agenda - {}/{}/{}.\n\n".format(data['day'], data['month'], data['year'])
+    datastring = "Agenda - {}/{}/{}.\n\n".\
+        format(data['day'], data['month'], data['year'])
 
     counter = 0
     runningstring = ""
     for m in data['items']:
         if m['urgent'] == 1:
             counter = counter + 1
-            runningstring += "{username}: {content}.\n".format(content=m['content'], username=m['username'])
+            runningstring += "{username}: {content}.\n".\
+                format(content=m['content'], username=m['username'])
     if counter > 0:
         datastring += "URGENT:\n"
         datastring += runningstring
@@ -24,7 +26,8 @@ def BuildFile(guildid):
     for m in data['items']:
         if m['urgent'] == 0:
             counter = counter + 1
-            runningstring += "{username}: {content}.\n".format(content=m['content'], username=m['username'])
+            runningstring += "{username}: {content}.\n".\
+                format(content=m['content'], username=m['username'])
     if counter > 0:
         datastring += "\nMain:\n"
         datastring += runningstring
@@ -34,7 +37,8 @@ def BuildFile(guildid):
     for m in data['items']:
         if m['urgent'] == -1:
             counter = counter + 1
-            runningstring += "{username}: {content}.\n".format(content=m['content'], username=m['username'])
+            runningstring += "{username}: {content}.\n".\
+                format(content=m['content'], username=m['username'])
     if counter > 0:
         datastring += "\nLast on the Agenda:\n"
         datastring += runningstring

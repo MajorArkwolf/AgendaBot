@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 
 command = agendacommands
 
+
 class MyClient(discord.Client):
 
     dotenv_path = join(dirname(__file__), '.env')
@@ -36,7 +37,8 @@ class MyClient(discord.Client):
         # we do not want the bot to reply to itself
         if message.author == client.user:
             return
-        # used to grab default channel and prefix, if server doesnt exist insert it
+        # used to grab default channel and prefix,
+        # if server doesnt exist insert it
         if message.author != client.user:
             if type(message.channel) is not discord.channel.DMChannel:
                 id_exists = database.GetServer(message.guild.id)
@@ -45,7 +47,7 @@ class MyClient(discord.Client):
                     prefix = id_exists[2]
                 else:
                     database.SetServer(message.guild.id, "agenda", "!!",
-                        message.guild.owner_id)
+                                       message.guild.owner_id)
 
         if message.content.startswith(prefix + "setchannel"):
             if command.VerifyRole(message.author.id, message.guild.id, 0):
@@ -66,7 +68,8 @@ class MyClient(discord.Client):
             if command.VerifyRole(message.author.id, message.guild.id, 0):
                 database.ClearServer(message.guildid, message.guild.owner_id)
 
-        # Any command below this line must happen in the default channel, otherwise the bot will notify them.
+        # Any command below this line must happen in the default channel,
+        # otherwise the bot will notify them.
         if message.content.startswith(prefix):
             if type(message.channel) is not discord.channel.DMChannel:
                 if message.channel.name != defaultRoom:
@@ -80,7 +83,8 @@ class MyClient(discord.Client):
                 temp = temp.split(" ")[1]
                 await command.Userlookup(message, temp)
             except:
-                await message.author.send("Unable to process, ensure you have entered a name at the end")
+                await message.author.send("Unable to process, ensure you have"
+                                          " entered a name at the end")
             await command.MessageCleanup(message)
             return
 

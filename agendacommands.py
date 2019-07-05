@@ -10,10 +10,6 @@ import compilejson
 client = discord.Client()
 
 
-async def CheckUser(message):
-    return True
-
-
 def FindUser(id):
     return database.FindUser(id)
 
@@ -45,9 +41,11 @@ async def UserRemove(message):
     id_exists = database.FindUser(message.author.id)
     if id_exists:
         database.RemoveUser(message.author.id)
-        await message.author.send("You have removed yourself from the register.")
+        await message.author.send("You have removed yourself from the"
+                                  " register.")
     else:
-        await message.author.send("Userid: {0}, not stored in the Database.".format(message.author.id))
+        await message.author.send("Userid: {0}, not stored in the Database."
+                                  .format(message.author.id))
     return
 
 
