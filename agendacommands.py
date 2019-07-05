@@ -10,7 +10,6 @@ import compilejson
 client = discord.Client()
 
 
-# Returns an ID from the database
 def FindUser(id):
     return database.FindUser(id)
 
