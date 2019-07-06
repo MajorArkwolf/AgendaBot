@@ -51,7 +51,7 @@ class MyClient(discord.Client):
 
         if message.content.startswith(prefix + "setchannel"):
             if command.VerifyRole(message.author.id, message.guild.id, 0):
-                command.SetChannel(message)
+                await command.SetChannel(message)
                 return
 
         if message.content.startswith(prefix + "setprefix"):

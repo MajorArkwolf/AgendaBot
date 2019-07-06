@@ -3,7 +3,7 @@ import discord
 
 async def HelpMenu(message, permission):
     messageUser = discord.Embed(title="Help Menu - Regular Commands", color=0x00ff00)
-    var = "Remove all [] from commands, just used to depict data fields"
+    var = "Remove all [] from commands, just used to depict data fields.\nReplace '!!' with your servers given prefix."
     messageUser.add_field(name="Information", value=var, inline=False)
     var = "Register the user into the database and “Name” will be what the server will identify them as.\n"
     var += "Example: !!register Peter"
@@ -57,6 +57,9 @@ async def HelpMenu(message, permission):
 
     if permission >= 2:
         messageUser = discord.Embed(title="Help Menu - Super Admin Commands.", color=0x00ff00)
+
+        var = "Sets the default channel for where Agenda information will go.\n"
+        messageUser.add_field(name="!!setchannel", value=var, inline=False)
 
         var = "Clears all the data stored about the server in the database, used when discord server owner changes. This resets the server id and owner id and removes all admins, prefix and default channels.\n"
         messageUser.add_field(name="!!clearserver", value=var, inline=False)
