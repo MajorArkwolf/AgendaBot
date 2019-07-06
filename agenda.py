@@ -46,7 +46,7 @@ class MyClient(discord.Client):
                     defaultRoom = id_exists[1]
                     prefix = id_exists[2]
                 else:
-                    database.SetServer(message.guild.id, "agenda", "!!",
+                    database.SetServer(message.guild.id, defaultRoom, prefix,
                                        message.guild.owner_id)
 
         if message.content.startswith(prefix + "setchannel"):
@@ -66,7 +66,8 @@ class MyClient(discord.Client):
 
         if message.content == (prefix + "clearserver"):
             if command.VerifyRole(message.author.id, message.guild.id, 0):
-                database.ClearServer(message.guildid, message.guild.owner_id)
+                database.ClearServer(message.guild.id, "agenda", "!!", message.guild.owner_id)
+                await message.author.send("Server Cleaned")
 
         # Any command below this line must happen in the default channel,
         # otherwise the bot will notify them.

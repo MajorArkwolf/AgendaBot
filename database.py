@@ -17,15 +17,13 @@ def GetServer(guildid):
     return c.fetchone()
 
 
-def ClearServer(guildid, ownerid):
-    c.execute("INSERT INTO server (id, DefaultChannel, Prefix, OwnerID) VALUES ({id}, {cname}, {pfix} , {ownerid})".\
-        format(id=guildid, cname="agenda", pfix="!!", ownerid=ownerid))
+def ClearServer(guildid, channelname, prefix, ownerid):
+    c.execute("UPDATE server SET DefaultChannel = ?, Prefix = ?, OwnerID = ?, President = 'null', VicePresident = 'null', Secretary = 'null' WHERE id = ?", (channelname, prefix, ownerid, guildid))
     conn.commit()
 
 
 def SetServer(guildid, channelname, prefix, ownerid):
-    c.execute("INSERT INTO server (id, DefaultChannel, Prefix, OwnerID) VALUES ({id}, {cname}, {pfix} , {ownerid})".\
-        format(id=guildid, cname=channelname, pfix=prefix, ownerid=ownerid))
+    c.execute("INSERT INTO server (id, DefaultChannel, Prefix, OwnerID) VALUES (?, ?, ?, ?)", (guildid, channelname, prefix, ownerid))
     conn.commit()
 
 
