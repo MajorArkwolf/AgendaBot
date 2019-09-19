@@ -5,3 +5,5 @@ AgendaBot is a simple bot designed to allow users who have access to an assigned
 This was my first time designing a low server coupling bot, as in it could join any server and not be tied to it. In theory it can join, have its default values modified and this should have zero effect on any other server.
 
 # Changes to be made
+-Allow multiple agendas
+-Post agenda on closing
