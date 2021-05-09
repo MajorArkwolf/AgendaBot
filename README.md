@@ -18,11 +18,12 @@ To get setup and running you will need todo the following...
 2. On Discord Developer -> Application -> Bot, you will need to enable SERVER MEMBERS INTENT and PRESENCE INTENT.
 3. Download or clone the repo, preferably use a release build.
 4. Navigate to the root file.
-5. Edit .env file and copy your bots secret id after the equals sign.
-6. Ensure you have serverinfo.db file in the root directory, if not either download it or run ```git lfs pull```.
-7. Start the bot with ```python3 agenda.py```
-8. Invite the bot to your server.
-9. Run !!help to get the bot command lists.
+5. Copy all the files in the setup folder into the root directory.
+6. Edit .env file and copy your bots secret id after the equals sign.
+7. Ensure you have serverinfo.db file in the root directory, if not either download it or run ```git lfs pull```.
+8. Start the bot with ```python3 agenda.py```
+9. Invite the bot to your server.
+10. Run !!help to get the bot command lists.
 
 ## Notice
 This bot is not under active development, if you have an issue you can raise it however dont expect immediate support, otherwise you can contribute fixes and updates to the repo for review.
