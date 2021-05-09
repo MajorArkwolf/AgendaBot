@@ -8,6 +8,10 @@ import helpmenu
 from os.path import join, dirname
 from dotenv import load_dotenv
 
+intents = discord.Intents.default()
+intents.members = True
+intents.guilds = True
+
 command = agendacommands
 
 
@@ -50,22 +54,22 @@ class MyClient(discord.Client):
                                        message.guild.owner_id)
 
         if message.content.startswith(prefix + "setchannel"):
-            if command.VerifyRole(message.author.id, message.guild.id, 0):
+            if command.VerifyRole(message.author.id, message.guild, 0):
                 await command.SetChannel(message)
                 return
 
         if message.content.startswith(prefix + "setprefix"):
-            if command.VerifyRole(message.author.id, message.guild.id, 0):
+            if command.VerifyRole(message.author.id, message.guild, 0):
                 await command.SetPrefix(message)
                 return
 
         if message.content.startswith("!!setprefix"):
-            if command.VerifyRole(message.author.id, message.guild.id, 0):
+            if command.VerifyRole(message.author.id, message.guild, 0):
                 await command.SetPrefix(message)
                 return
 
         if message.content == (prefix + "clearserver"):
-            if command.VerifyRole(message.author.id, message.guild.id, 0):
+            if command.VerifyRole(message.author.id, message.guild, 0):
                 database.ClearServer(message.guild.id, "agenda", "!!", message.guild.owner_id)
                 await message.author.send("Server Cleaned")
 
@@ -95,13 +99,13 @@ class MyClient(discord.Client):
             return
 
         if message.content.startswith(prefix + "create"):
-            if command.VerifyRole(message.author.id, message.guild.id, 1):
+            if command.VerifyRole(message.author.id, message.guild, 1):
                 if message.channel.name == defaultRoom:
                     await command.CreateAgenda(message)
                 return
 
         if message.content.startswith(prefix + "setdate"):
-            if command.VerifyRole(message.author.id, message.guild.id, 1):
+            if command.VerifyRole(message.author.id, message.guild, 1):
                 if message.channel.name == defaultRoom:
                     await command.ModifyDate(message)
                     return
@@ -112,7 +116,7 @@ class MyClient(discord.Client):
                 return
 
         if message.content == (prefix + "end"):
-            if command.VerifyRole(message.author.id, message.guild.id, 1):
+            if command.VerifyRole(message.author.id, message.guild, 1):
                 if command.FileCheck(message):
                     compilejson.StartBuild(message.guild.id)
                     await command.PostAgendaTXT(message)
@@ -125,7 +129,7 @@ class MyClient(discord.Client):
             return
 
         if message.content == (prefix + "forceend"):
-            if command.VerifyRole(message.author.id, message.guild.id, 1):
+            if command.VerifyRole(message.author.id, message.guild, 1):
                 await compilejson.MoveJSON(message.guild.id)
             else:
                 await command.ErrorPrivilege(message)
@@ -135,17 +139,17 @@ class MyClient(discord.Client):
             await command.DeleteItems(message)
 
         if message.content.startswith(prefix + "addadmin"):
-            if command.VerifyRole(message.author.id, message.guild.id, 0):
+            if command.VerifyRole(message.author.id, message.guild, 0):
                 await command.AddAdmin(message)
                 return
 
         if message.content.startswith(prefix + "removeadmin"):
-            if command.VerifyRole(message.author.id, message.guild.id, 0):
+            if command.VerifyRole(message.author.id, message.guild, 0):
                 await command.AddAdmin(message)
                 return
 
         if message.content == (prefix + "viewadmins"):
-            if command.VerifyRole(message.author.id, message.guild.id, 0):
+            if command.VerifyRole(message.author.id, message.guild, 0):
                 await command.ViewAdmins(message)
             return
 
@@ -164,9 +168,9 @@ class MyClient(discord.Client):
 
         if message.content == (prefix + "help"):
             var = 0
-            if command.VerifyRole(message.author.id, message.guild.id, 1):
+            if command.VerifyRole(message.author.id, message.guild, 1):
                 var = 1
-            if command.VerifyRole(message.author.id, message.guild.id, 0):
+            if command.VerifyRole(message.author.id, message.guild, 0):
                 var = 2
             await helpmenu.HelpMenu(message, var)
             await command.MessageCleanup(message)
@@ -185,5 +189,5 @@ class MyClient(discord.Client):
 
 
 TOKEN = os.environ.get("DISCORD_BOT_SECRET")
-client = MyClient()
+client = MyClient(intents=intents)
 client.run(TOKEN)
