@@ -250,7 +250,7 @@ async def DeleteItems(message):
         try:
             if data['items'][index]['userid'] == message.author.id:
                 remove = True
-            elif VerifyRole(message.author.id, message.guild.id, 1):
+            elif VerifyRole(message.author.id, message.guild, 1):
                 remove = True
             else:
                 remove = False
@@ -315,8 +315,8 @@ async def ViewDefaultChannel(message):
     messageUser.add_field(name="ServerID", value=info[0], inline=False)
     messageUser.add_field(name="Default Channel", value=info[1], inline=False)
     messageUser.add_field(name="Prefix", value=info[2], inline=False)
-    owner = message.guild.get_member(info[3])
-    var = "ID: {id}.\nUsername: {username}".format(id=info[3], username=owner)
+    owner = message.guild.get_member(message.guild.owner_id)
+    var = "ID: {id}.\nUsername: {username}".format(id=owner.id, username=owner)
     messageUser.add_field(name="Server Owner", value=var, inline=False)
     await message.channel.send(embed=messageUser)
 
@@ -325,12 +325,12 @@ async def ViewDefaultChannel(message):
 async def ViewAdmins(message):
     info = database.GetServer(message.guild.id)
     messageUser = discord.Embed(title="Current Admin", color=0x00ff00)
-    owner = message.guild.get_member(info[3])
+    owner = message.guild.get_member(message.guild.owner_id)
     president = message.guild.get_member(info[4])
     vicepresident = message.guild.get_member(info[5])
     secretary = message.guild.get_member(info[6])
     if owner:
-        var = "ID: {id}.\nUsername: {username}".format(id=info[3], username=owner)
+        var = "ID: {id}.\nUsername: {username}".format(id=message.guild.owner_id, username=owner)
         messageUser.add_field(name="Owner", value=var, inline=False)
     if president:
         var = "ID: {id}.\nUsername: {username}".format(id=info[4], username=president)
@@ -363,7 +363,7 @@ async def SetLevel(message):
         try:
             if data['items'][index]['userid'] == message.author.id:
                 edit = True
-            elif VerifyRole(message.author.id, message.guild.id, 1):
+            elif VerifyRole(message.author.id, message.guild, 1):
                 edit = True
             else:
                 edit = False
@@ -389,16 +389,17 @@ async def SetChannel(message):
         await message.channel.send("New channel set to {}.".format(temp))
 
 
-def VerifyRole(id, guildid, level):
+def VerifyRole(id, guild, level):
     # level 0 = owner and president only
     # level 1 = all admins
-    server = database.GetServer(guildid)
-    owner = server[3]
+    server = database.GetServer(guild.id)
+    owner = guild.owner_id
     admin1 = server[4]
     admin2 = server[5]
     admin3 = server[6]
-
-    if id == owner or id == admin1:
+    if owner != None and owner == id:
+        return True
+    elif id == admin1:
         return True
     elif id == admin2 or id == admin3:
         if level == 1:
