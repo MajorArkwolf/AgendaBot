@@ -99,10 +99,9 @@ class MyClient(discord.Client):
             return
 
         if message.content.startswith(prefix + "create"):
-            if command.VerifyRole(message.author.id, message.guild, 1):
-                if message.channel.name == defaultRoom:
-                    await command.CreateAgenda(message)
-                return
+            if message.channel.name == defaultRoom:
+                await command.CreateAgenda(message)
+            return
 
         if message.content.startswith(prefix + "setdate"):
             if command.VerifyRole(message.author.id, message.guild, 1):

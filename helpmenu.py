@@ -12,6 +12,9 @@ async def HelpMenu(message, permission):
     var = "Removes a user registered with the current discord ID from the database. Useful if you would like to reset the users name.\n"
     messageUser.add_field(name="!!unregister", value=var, inline=False)
 
+    var = "Creates a new agenda ONLY if no current agenda is active. 1 agenda per server. Date must be equal to or later than the current date. The date is the closed date for the agenda.\n"
+    messageUser.add_field(name="!!create [DD/MM/YYYY]", value=var, inline=False)
+
     var = "The user who uses this command MUST be registered using the !!register “Name” command. Once this is done that user in the default channel will be able to add things onto the agenda.\n"
     messageUser.add_field(name="!!additem [message]", value=var, inline=False)
 
@@ -40,9 +43,6 @@ async def HelpMenu(message, permission):
     await message.author.send(embed=messageUser)
     if permission >= 1:
         messageUser = discord.Embed(title="Help Menu - Admin Commands", color=0x00ff00)
-
-        var = "Creates a new agenda ONLY if no current agenda is active. 1 agenda per server. Date must be equal to or later than the current date. The date is the closed date for the agenda.\n"
-        messageUser.add_field(name="!!create [DD/MM/YYYY]", value=var, inline=False)
 
         var = "Changes the current date of the agenda to the new one, date must be the same date or later than the current date. This date is the close date for the agenda.\n"
         messageUser.add_field(name="!!setdate [DD/MM/YYYY]", value=var, inline=False)
