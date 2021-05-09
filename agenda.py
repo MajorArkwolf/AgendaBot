@@ -148,7 +148,7 @@ class MyClient(discord.Client):
                 return
 
         if message.content == (prefix + "viewadmins"):
-            if command.VerifyRole(message.author.id, message.guild, 0):
+            if message.channel.name == defaultRoom:
                 await command.ViewAdmins(message)
             return
 
