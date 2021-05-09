@@ -393,12 +393,14 @@ def VerifyRole(id, guildid, level):
     # level 0 = owner and president only
     # level 1 = all admins
     server = database.GetServer(guildid)
-    owner = server[3]
+    owner = get_guild(guildid).owner_id
     admin1 = server[4]
     admin2 = server[5]
     admin3 = server[6]
-
-    if id == owner or id == admin1:
+    if owner != None:
+        if owner == id:
+            return True
+    elif id == admin1:
         return True
     elif id == admin2 or id == admin3:
         if level == 1:
