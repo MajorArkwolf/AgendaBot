@@ -315,7 +315,7 @@ async def ViewDefaultChannel(message):
     messageUser.add_field(name="ServerID", value=info[0], inline=False)
     messageUser.add_field(name="Default Channel", value=info[1], inline=False)
     messageUser.add_field(name="Prefix", value=info[2], inline=False)
-    owner = message.guild.get_member(info[3])
+    owner = message.guild.get_member(message.guild.owner_id)
     var = "ID: {id}.\nUsername: {username}".format(id=info[3], username=owner)
     messageUser.add_field(name="Server Owner", value=var, inline=False)
     await message.channel.send(embed=messageUser)
