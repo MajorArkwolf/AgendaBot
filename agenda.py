@@ -144,7 +144,7 @@ class MyClient(discord.Client):
 
         if message.content.startswith(prefix + "removeadmin"):
             if command.VerifyRole(message.author.id, message.guild, 0):
-                await command.AddAdmin(message)
+                await command.RemoveAdmin(message)
                 return
 
         if message.content == (prefix + "viewadmins"):
