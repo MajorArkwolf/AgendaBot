@@ -404,5 +404,7 @@ def VerifyRole(id, guild, level):
     elif id == admin2 or id == admin3:
         if level == 1:
             return True
+        else:
+            return False
     else:
         return False
