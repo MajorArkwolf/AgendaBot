@@ -52,6 +52,17 @@ class MyClient(discord.Client):
                 else:
                     database.SetServer(message.guild.id, defaultRoom, prefix,
                                        message.guild.owner_id)
+                    
+        if message.content == (prefix + "help"):
+            var = 0
+            if command.VerifyRole(message.author.id, message.guild, 1):
+                var = 1
+            if command.VerifyRole(message.author.id, message.guild, 0):
+                var = 2
+            await helpmenu.HelpMenu(message, var)
+            await command.MessageCleanup(message)
+            return
+
 
         if message.content.startswith(prefix + "setchannel"):
             if command.VerifyRole(message.author.id, message.guild, 0):
@@ -167,16 +178,6 @@ class MyClient(discord.Client):
         if message.content == (prefix + "view"):
             if message.channel.name == defaultRoom:
                 await command.ViewAgenda(message)
-            return
-
-        if message.content == (prefix + "help"):
-            var = 0
-            if command.VerifyRole(message.author.id, message.guild, 1):
-                var = 1
-            if command.VerifyRole(message.author.id, message.guild, 0):
-                var = 2
-            await helpmenu.HelpMenu(message, var)
-            await command.MessageCleanup(message)
             return
 
     async def on_guild_join(self, var):
